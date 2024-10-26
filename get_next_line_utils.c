@@ -6,12 +6,21 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/10/23 16:07:14 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/10/26 01:58:04 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+size_t	ft_strlen(const char *s)
+{
+	char	*z;
+
+	z = (char *)s;
+	while (*z)
+		z++;
+	return (z - s);
+}
 
 int	ft_lstsize(t_list *lst)
 {
@@ -47,6 +56,38 @@ t_list	*ft_lstnew(void *content)
 	lst->next = NULL;
 	return (lst);
 }
+
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+	size_t	len;
+
+	i = -1;
+	len = ft_strlen(s);
+	while ((++i) < len)
+		if ((char)s[i] == (char)c)
+			return ((char *)&s[i]);
+	if ((char)c == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
+}
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned char	*a;
+	unsigned char	*z;
+
+	if (!dest && !src)
+		return (dest);
+	a = (unsigned char *)src;
+	z = (unsigned char *)dest;
+	while (n--)
+		*(z++) = *(a++);
+	return (dest);
+}
+
+
+
 
 
 /*
