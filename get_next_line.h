@@ -6,14 +6,15 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:47 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/10/26 01:57:42 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:34:58 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFFER_SIZE 1
+# ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1
 
-#include <unistd.h>
-#include <stdlib.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 char	*get_next_line(int fd);
 t_list	*ft_lstnew(void *content);
@@ -24,6 +25,8 @@ char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 typedef struct s_list
 {
-	void			*content;
+	char			content[BUFFER_SIZE + 1];
 	struct s_list	*next;
 }	t_list;
+
+#endif
