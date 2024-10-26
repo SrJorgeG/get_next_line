@@ -28,10 +28,10 @@ char	*get_line(int fd, t_list *str)
 			str->next = ft_lstnew(aux);
 			if (!str->next)
 				return (NULL);
+			str = str->next;
 		}
-		else
-			str->content = aux;
-		return (NULL);
+		str->content = aux;
+		return (str->content);
 	}
 	else
 		return (ft_strchr(aux, '\n'));
@@ -42,14 +42,11 @@ char	*get_next_line(int fd)
 	static t_list	*str_list;
 	char			*nxt_ln;
 
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-
-	if (get_line())
-	{
-		/* code */
-	}
-	
-	
+	nxt_ln = get_line(fd, &(*str_list));	
+	if (nxt_ln)
+		
 	
 }
