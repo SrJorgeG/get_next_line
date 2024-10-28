@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/10/26 13:06:44 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/10/28 06:16:41 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	*lst = new;
 }
 
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*aux;
+
+	aux = *lst;
+	if (*lst)
+	{
+		while (aux->next)
+			aux = aux->next;
+		aux->next = new;
+	}
+	else
+		*lst = new;
+}
 t_list	*ft_lstnew(void *content)
 {
 	t_list	*lst;
@@ -70,6 +84,20 @@ char	*ft_strchr(const char *s, int c)
 	if ((char)c == '\0')
 		return ((char *)&s[i]);
 	return (NULL);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*sd;
+
+	if (!s1 || !s2)
+		return (NULL);
+	sd = (char *)ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!sd)
+		return (NULL);
+	ft_memcpy(sd, s1, ft_strlen(s1));
+	ft_memcpy(sd + ft_strlen(s1), s2, ft_strlen(s2));
+	return (sd);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
