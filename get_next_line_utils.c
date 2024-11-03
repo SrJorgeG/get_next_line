@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/10/28 06:16:41 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/04 00:17:22 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	else
 		*lst = new;
 }
+
 t_list	*ft_lstnew(void *content)
 {
 	t_list	*lst;
