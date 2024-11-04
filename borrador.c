@@ -1,9 +1,17 @@
-/*
-	COSAS PARA HACER:
+size_t  ft_strlen(const char *s)
+{
+        char    *z;
 
-	1. funcion read 
-	2. variables estáticas
-	3. crear un main para comprbar cualquier avance
-	4. importar funciones necesarias de la libft sin usar libft (CTRL + C, CTRL V) [utils]
-	5. crear funcion gnl
-*/
+        z = (char *)s;
+        while (*z)
+                z++;
+        return (z - s);
+}
+
+#include <stdio.h>
+#include <stddef.h>
+
+int main()
+{
+	printf("%d", ft_strlen("Hola Mundo"));
+}

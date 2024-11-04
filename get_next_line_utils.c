@@ -87,19 +87,19 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+/*char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*sd;
 
 	if (!s1 || !s2)
 		return (NULL);
-	sd = (char *)ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
+	sd = ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!sd)
 		return (NULL);
 	ft_memcpy(sd, s1, ft_strlen(s1));
 	ft_memcpy(sd + ft_strlen(s1), s2, ft_strlen(s2));
 	return (sd);
-}
+}*/
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -116,8 +116,25 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 }
 
 
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*z;
+
+	z = (unsigned char *)s;
+	while (n--)
+		*z++ = '\0';
+}
 
 
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*str;
+
+	str = malloc(nmemb * size);
+	if (str)
+		ft_bzero(str, nmemb * size);
+	return (str);
+}
 
 /*
 size_t	ft_linelen(int fd)
