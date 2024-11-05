@@ -6,12 +6,12 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:54 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/04 00:50:47 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:04:30 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
+#include <string.h>
 /*char	*read_lnjump(int fd, char	*aux)
 {
 	
@@ -34,7 +34,7 @@ char	*get_line(int fd, t_list **lst, char	*aux)
 	rest = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	//rest = ft_calloc(ft_strlen(ft_strchr(aux, '\n')) + 1, sizeof(char));
 	printf("mallocs\n");
-	rest = ft_strchr(aux, '\n');
+	rest = strchr(aux, '\n');
 	printf("strchr\n");
 	if (rest)
 		ft_memcpy(str->content, aux,
