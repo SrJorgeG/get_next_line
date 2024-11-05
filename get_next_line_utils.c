@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/05 15:52:02 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/05 22:06:58 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ size_t	ft_strlen(const char *s)
 	char	*z;
 
 	z = (char *)s;
-	while (*z && (*z != '\n'))
+	if (!s)
+		return (0);
+	while (*z)
 		z++;
 	return (z - s);
 }

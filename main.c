@@ -8,4 +8,5 @@ int main()
 
 	line = get_next_line(fd);
 	printf("\n%s\n",line);
+	free (line);
 }
