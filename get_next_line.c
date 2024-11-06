@@ -31,20 +31,25 @@ char	*get_line(int fd, t_list **lst, char	*aux)
 	str = *lst;
 	cont = 0;
 	rest = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!rest)
+		return (NULL);
 	while (!ft_strchr(aux, '\n') || cont <= 0)
 	{
 		cont = read(fd, aux, BUFFER_SIZE);
 		if (cont < 0)
 			return (NULL);
 		rest = ft_strchr(aux, '\n') + 1;
-		if (rest)
-		{
-			ft_memcpy(str->content, aux,
-				(ft_strlen(aux) - ft_strlen(rest)));
-			return (rest);
-		}
-		else
+		if (!rest)
 			ft_memcpy(str->content, aux, ft_strlen(aux));
+		ft_memcpy(str->content, aux,
+			(ft_strlen(aux) - ft_strlen(rest)));
+		while (rest)
+		{
+			aux += (ft_strlen(aux) - ft_strlen(rest) + 1);
+			ft_lstadd_back(str, ft_lstnew())
+			str = str->next;
+			rest = ft_strchr(aux, '\n') + 1;
+		}
 	}
 	return (rest);
  
@@ -85,7 +90,14 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buff)
+		return (NULL);
 	nxt_ln = get_line(fd, &str_list, buff);
-
-	return (str_list->content);
+	if (!nxt_ln)
+		return (str_list->content);
+	while (!ft_strchr(aux, '\n') || cont <= 0)
+	{
+		ft_lstadd_back(ft_lstnew(buff))
+	
+	}
 }
