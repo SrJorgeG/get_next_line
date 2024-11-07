@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/05 22:06:58 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/07 02:14:29 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,16 @@ size_t	ft_strlen(const char *s)
 	return (z - s);
 }
 
-int	ft_lstsize(t_list *lst)
+t_list	*ft_lstnew(void *content)
 {
-	t_list	*current;
-	int		size;
+	t_list	*lst;
 
-	current = lst;
-	size = 0;
-	while (current)
-	{
-		size++;
-		current = current->next;
-	}
-	return (size);
-}
-
-void	ft_lstadd_front(t_list **lst, t_list *new)
-{
-	if (!lst || !new)
-		return ;
-	new->next = *lst;
-	*lst = new;
+	lst = (t_list *)malloc(sizeof(t_list));
+	if (!lst)
+		return (NULL);
+	lst->content = content;
+	lst->next = NULL;
+	return (lst);
 }
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
@@ -62,18 +51,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		*lst = new;
 }
 
-t_list	*ft_lstnew(void *content)
-{
-	t_list	*lst;
-
-	lst = (t_list *)malloc(sizeof(t_list));
-	if (!lst)
-		return (NULL);
-	lst->content = content;
-	lst->next = NULL;
-	return (lst);
-}
-
 char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;
@@ -89,20 +66,6 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-/*char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*sd;
-
-	if (!s1 || !s2)
-		return (NULL);
-	sd = ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!sd)
-		return (NULL);
-	ft_memcpy(sd, s1, ft_strlen(s1));
-	ft_memcpy(sd + ft_strlen(s1), s2, ft_strlen(s2));
-	return (sd);
-}*/
-
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	unsigned char	*a;
@@ -117,24 +80,30 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-
-void	ft_bzero(void *s, size_t n)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned char	*z;
+	char	*sd;
 
-	z = (unsigned char *)s;
-	while (n--)
-		*z++ = '\0';
+	if (!s1 || !s2)
+		return (NULL);
+	sd = ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!sd)
+		return (NULL);
+	ft_memcpy(sd, s1, ft_strlen(s1));
+	ft_memcpy(sd + ft_strlen(s1), s2, ft_strlen(s2));
+	return (sd);
 }
-
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*str;
+	unsigned char	*z;
 
 	str = malloc(nmemb * size);
+	z = (unsigned char *)str;
 	if (str)
-		ft_bzero(str, nmemb * size);
+		while (nmemb--)
+			*z++ = '\0';
 	return (str);
 }
 
