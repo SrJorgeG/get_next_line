@@ -6,21 +6,11 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:54 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/07 02:15:27 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/07 02:24:11 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <string.h>
-/*char	*read_lnjump(int fd, char	*aux)
-{
-	
-	return ();
-}*/
-/*
-cont = 0;
-
-*/
 
 size_t get_line(int fd, t_list **lst, char	*aux)
 {
@@ -58,34 +48,9 @@ size_t get_line(int fd, t_list **lst, char	*aux)
 		str = str->next;
 		rest = ft_strchr(aux, '\n') + 1;
 	}
+	free(rest);
 	return (i);
 }	
- 
-//	SI HAY UN SALTO DE LINEA EN LA PRIMERA POSICION (SON RESTOS)
-/*
-	if (str->content[0] == '\n')
-	{
-		cont = read(fd, aux, (BUFFER_SIZE - ft_strlen(str->content)));
-		if (cont < 0)
-			return (NULL);
-		str->coif (nxt_ln)
-	{
-		while (ft_strchr(nxt_ln, '\n'))
-		{
-			printf("gets here\n");
-			ft_lstadd_back(&str_list, ft_lstnew(nxt_ln));
-			ft_memcpy(nxt_ln, nxt_ln, ft_strlen(nxt_ln) - ft_strlen(ft_strchr(nxt_ln, '\n')));
-		}
-	}ntent = ft_strjoin(str->content, aux);
-	}
-//	EL NODO ESTA LLENO
-	else
-	{
-		str->next = ft_lstnew(aux);
-		if (!str->next)
-			return (NULL);
-	} 
-*/
 
 char	*get_next_line(int fd)
 {
@@ -109,7 +74,11 @@ char	*get_next_line(int fd)
 	while (counter--)
 	{
 		ln = ft_strjoin(ln, str_list->content);
+		str_list->content = NULL;
+		free(str_list);
 		str_list = str_list->next;
 	}
+	free(buff);
+	free(ln);
 	return (ln);
 }
