@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:54 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/08 20:14:00 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/11 23:47:19 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
+
+/*
+if (!rest)
+{	
+	ft_memcpy(str->content, aux, cont);
+	return (i);
+}
+*/
 
 size_t get_line(int fd, t_list **lst)
 {
@@ -19,7 +27,6 @@ size_t get_line(int fd, t_list **lst)
 	size_t	i;
 	size_t	rest;
 	t_list	*str;
-	t_list	*nodo;
 	char	*aux;
 
 	str = *lst;
@@ -33,23 +40,16 @@ size_t get_line(int fd, t_list **lst)
 		cont = read(fd, aux, BUFFER_SIZE);
 		if (cont < 0)
 			return (0);
-		rest = ft_strlen(ft_strchr(aux, '\n'));
-		if (!rest)
-		{	
-			printf("Content [%s], Aux [%s], cont [%lu]\n", str->content, aux, cont);
-			ft_memcpy(str->content, aux, cont);
-			return (i);
+		rest = ft_strchr(aux, '\n') + 1;
+		while (rest > 1)
+		{
+			ft_memcpy(str->content, aux, (cont - ft_strlen(rest)) + 1);
+			if(!ft_lstnewadd_back(lst, aux + (cont - ft_strlen(rest))))
+				return (0);
+			str = str->next;
+			rest = ft_strchr(rest, '\n') + 1;
+			i++;
 		}
-		ft_memcpy(str->content, aux, (cont - rest) + 1);
-		i++;
-		aux += (cont - rest + 1);
-		nodo = ft_lstnew(NULL);
-		if (!nodo)
-			return (0);
-		ft_lstadd_back(&str, nodo);
-		if (!str->next)
-			return (i);
-		str = str->next;
 	}
 	return (i);
 }	

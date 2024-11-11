@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/08 20:06:31 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/11 23:18:14 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,24 @@
 
 size_t	ft_strlen(const char *s)
 {
-	char	*z;
-
-	z = (char *)s;
-	while (*z)
-		z++;
-	return (z - s);
+	size_t	i;
+	
+	i = 0;
+	while (s && s[i] != '\0')
+		i++;
+	return (i);
 }
 
-t_list	*ft_lstnew(void *content)
+size_t	*ft_lstnewadd_back(t_list **lst, char *content)
 {
-	t_list	*lst;
-
-	lst = (t_list *)malloc(sizeof(t_list));
-	if (!lst)
-		return (NULL);
-	lst->content = content;
-	lst->next = NULL;
-	return (lst);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
+	t_list	*new;
 	t_list	*aux;
-
+	
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (0);
+	ft_memcpy(new->content, content, ft_strlen(content));
+	new->next = NULL;
 	aux = *lst;
 	if (*lst)
 	{
@@ -47,6 +41,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	}
 	else
 		*lst = new;
+	return (1);
 }
 
 char	*ft_strchr(const char *s, int c)
