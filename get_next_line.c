@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:54 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 14:29:10 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:14:36 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,19 @@ size_t	get_line(int fd, t_list **lst)
 	aux = NULL;
 	while (cont > 0 || !ft_strchr(aux, '\n'))
 	{
-		aux = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		aux = (char *)malloc(BUFFER_SIZE + 1);
 		if (!aux)
 			return (0);
 		cont = read(fd, aux, BUFFER_SIZE);
+		printf("Leo: [%ld] aux[%s]\n",cont, aux);
+
 		if (cont < 0)
 			return (0);
-		rest = ft_strchr(aux, '\n') + 1;
+		rest = ft_strchr(aux, '\n');
+		printf("Rest: [%s]", rest);
 		while (rest)
 		{
+			printf("Itero 1 con rest: [%s] aux[%s]\n", rest, aux);
 			i++;
 			ft_memcpy(str->content, aux, (cont - ft_strlen(rest)));
 			if(!(ft_lstnewadd_back(lst, aux + (cont - ft_strlen(rest)))))

@@ -6,11 +6,12 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 14:21:06 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:15:55 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -19,6 +20,7 @@ size_t	ft_strlen(const char *s)
 	i = 0;
 	while (s && s[i] != '\0')
 		i++;
+	printf("\n!!!len: [%lu] ft_strlen: [%s]\n",i, s);
 	return (i);
 }
 
@@ -32,8 +34,6 @@ char	*ft_strchr(const char *s, int c)
 	while ((++i) < len)
 		if ((char)s[i] == (char)c)
 			return ((char *)&s[i]);
-	if ((char)c == '\0')
-		return ((char *)&s[i]);
 	return (NULL);
 }
 
@@ -69,12 +69,15 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	unsigned char	*z;
 	size_t	len;
-
+	size_t	i;
+	
+	i = 0;
 	len = nmemb * size;
 	z = malloc(len);
 	if (z)
-		while (len--)
-			*z++ = '\0';
+		while (i < len)
+			z[i++] = '\0';
+	//printf("len: [%lu] ft_calloc:[%s]\n", len, z);
 	return (z);
 }
 
