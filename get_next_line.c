@@ -6,49 +6,65 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:54 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/11 23:47:19 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:29:10 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-/*
-if (!rest)
-{	
-	ft_memcpy(str->content, aux, cont);
-	return (i);
+size_t	ft_lstnewadd_back(t_list **lst, char *content)
+{
+	t_list	*new;
+	t_list	*aux;
+	
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (0);
+	ft_memcpy(new->content, content, ft_strlen(content));
+	new->next = NULL;
+	aux = *lst;
+	if (*lst)
+	{
+		while (aux->next)
+			aux = aux->next;
+		aux->next = new;
+	}
+	else
+		*lst = new;
+	return (1);
 }
-*/
 
-size_t get_line(int fd, t_list **lst)
+size_t	get_line(int fd, t_list **lst)
 {
 	ssize_t	cont;
 	size_t	i;
-	size_t	rest;
+	char	*rest;
 	t_list	*str;
 	char	*aux;
 
 	str = *lst;
 	cont = 1;
 	i = 0;
-	aux = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!aux)
-		return (0);
-	while (!ft_strchr(aux, '\n') || cont > 0)
+	aux = NULL;
+	while (cont > 0 || !ft_strchr(aux, '\n'))
 	{
+		aux = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		if (!aux)
+			return (0);
 		cont = read(fd, aux, BUFFER_SIZE);
 		if (cont < 0)
 			return (0);
 		rest = ft_strchr(aux, '\n') + 1;
-		while (rest > 1)
+		while (rest)
 		{
-			ft_memcpy(str->content, aux, (cont - ft_strlen(rest)) + 1);
-			if(!ft_lstnewadd_back(lst, aux + (cont - ft_strlen(rest))))
+			i++;
+			ft_memcpy(str->content, aux, (cont - ft_strlen(rest)));
+			if(!(ft_lstnewadd_back(lst, aux + (cont - ft_strlen(rest)))))
 				return (0);
 			str = str->next;
-			rest = ft_strchr(rest, '\n') + 1;
-			i++;
+			aux = rest;
+			rest = ft_strchr(rest, '\n') + 1;	
 		}
 	}
 	return (i);

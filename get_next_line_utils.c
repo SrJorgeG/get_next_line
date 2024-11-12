@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/11 23:18:14 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:21:06 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,6 @@ size_t	ft_strlen(const char *s)
 	while (s && s[i] != '\0')
 		i++;
 	return (i);
-}
-
-size_t	*ft_lstnewadd_back(t_list **lst, char *content)
-{
-	t_list	*new;
-	t_list	*aux;
-	
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-		return (0);
-	ft_memcpy(new->content, content, ft_strlen(content));
-	new->next = NULL;
-	aux = *lst;
-	if (*lst)
-	{
-		while (aux->next)
-			aux = aux->next;
-		aux->next = new;
-	}
-	else
-		*lst = new;
-	return (1);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -68,7 +46,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		return (dest);
 	a = (unsigned char *)src;
 	z = (unsigned char *)dest;
-	while (n--)
+	while (n-- && *a != '\n')
 		*(z++) = *(a++);
 	return (dest);
 }
@@ -98,6 +76,18 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		while (len--)
 			*z++ = '\0';
 	return (z);
+}
+
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*lst;
+
+	lst = (t_list *)malloc(sizeof(t_list));
+	if (!lst)
+		return (NULL);
+	lst->content = content;
+	lst->next = NULL;
+	return (lst);
 }
 
 /*
