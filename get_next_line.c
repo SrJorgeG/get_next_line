@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:54 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 21:00:39 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 22:35:05 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ size_t	get_line(int fd, t_list **lst)
 		//printf("Rest: [%s]\n", rest);
 		printf("Cont: [%zu]\n", cont);
 		if (!rest)
-			ft_memcpy((void *)str->content, (void *)aux, cont);
+			ft_memcpy(str->content, aux, cont);
 		printf("Content: [%s]\n", str->content);
-		while (rest != NULL)
+		while (rest)
 		{
 			printf("Itero 1 con rest: [%s] aux[%s]\n", rest, aux);
 			i++;
@@ -86,7 +86,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str_list = ft_lstnew(NULL);
+	str_list = ft_lstnew();
 	if (!str_list)
 		return (NULL);
 	counter = get_line(fd, &str_list);

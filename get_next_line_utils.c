@@ -6,14 +6,14 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 20:59:08 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 22:34:21 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	i;
 	
@@ -41,20 +41,19 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-void	*ft_memcpy(void *dst, void *src, size_t n)
+void	*ft_memcpy(char *dst, char *src, size_t n)
 {
-	size_t	i;
-
-	i = 0;
-	if (!dst && !src)
-		return (0);
-	while (i < n)
+	if (!src)
+		return (NULL);
+	while (n--)
 	{
-		((char *)dst)[i] = ((char *)src)[i];
-		i++;
+		*dst = *src;
+		dst++;
+		src++;
 	}
 	return (dst);
 }
+
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -86,14 +85,14 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (z);
 }
 
-t_list	*ft_lstnew(char *content)
+t_list	*ft_lstnew(void)
 {
 	t_list	*lst;
 
 	lst = (t_list *)malloc(sizeof(t_list));
 	if (!lst)
 		return (NULL);
-	lst->content = content;
+	lst->content = NULL;
 	lst->next = NULL;
 	return (lst);
 }

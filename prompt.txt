@@ -1,0 +1,260 @@
+Desarrolla un proyecto en C que implemente una función llamada get_next_line, que lea una línea de un file descriptor. Debes seguir las siguientes instrucciones y restricciones estrictamente:
+
+Instrucciones generales:
+Lenguaje: El código debe estar escrito en C, siguiendo la norma de estilo definida para el proyecto (Norminette).
+
+Funciones:
+
+La función principal debe ser char *get_next_line(int fd);.
+Debes implementar funciones de ayuda en un archivo separado get_next_line_utils.c si es necesario.
+La función get_next_line debe devolver la línea leída desde el file descriptor, o NULL si no hay más líneas por leer o si ocurre un error.
+La línea devuelta debe terminar con un carácter \n si no es el final del archivo. Si es el final del archivo y no hay salto de línea, la línea debe terminar sin \n.
+Uso de Memoria:
+
+Asegúrate de que no haya fugas de memoria (debes liberar correctamente la memoria asignada en el heap).
+La función no debe provocar errores de memoria (segfault, bus error, double free, etc).
+Buffers y Lectura:
+
+Debes manejar correctamente el tamaño del buffer usando el flag -D BUFFER_SIZE=xx, donde el valor del buffer será modificado por los evaluadores.
+No debes leer todo el archivo en memoria de una sola vez, sino que deberías leer lo menos posible cada vez que se llama a get_next_line().
+Compilación y Makefile:
+
+Debes entregar un Makefile que compile el proyecto con las siguientes flags: -Wall -Werror -Wextra.
+El Makefile debe incluir las reglas: all, clean, fclean, re y bonus (si aplica). La regla bonus debe compilar archivos extra que implementen funcionalidades adicionales que no son obligatorias para la parte principal.
+Si el proyecto requiere la librería libft, deberás incluirla en el directorio libft y asegurarte de que el Makefile compile primero la librería antes de compilar el proyecto principal.
+Restricciones:
+
+No se permite usar librerías adicionales, variables globales, o funciones como lseek.
+Si el descriptor de archivo cambia o si se lee un archivo binario, la función get_next_line debe manejarlo adecuadamente, devolviendo NULL cuando no pueda leer correctamente.
+Entregables:
+
+El proyecto debe contener al menos los siguientes archivos:
+get_next_line.c
+get_next_line_utils.c
+get_next_line.h
+En el archivo get_next_line.h, debe incluir el prototipo de la función get_next_line.
+Si se implementan bonus, estos deben estar en archivos separados get_next_line_bonus.c y get_next_line_bonus.h.
+Pruebas y Evaluación:
+
+Aunque no es obligatorio entregar programas de prueba, se recomienda crear pruebas adicionales para verificar que tu programa funcione correctamente bajo diferentes condiciones de entrada (por ejemplo, con archivos grandes, archivos vacíos, stdin, etc).
+
+SOURCE:
+
+gnl.h
+
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5 
+# endif
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <stddef.h>
+
+char	*get_next_line(int fd);
+typedef struct s_list
+{
+	char			*content;
+	struct s_list	*next;
+}	t_list;
+size_t	ft_strlen(char *s);
+t_list	*ft_lstnew(char *content);
+size_t	ft_lstnewadd_back(t_list **lst, char *content);
+char	*ft_strchr(char *s, int c);
+void	*ft_memcpy(char *dst,char *src, size_t n);
+char	*ft_strjoin(char *s1, char *s2);
+void	*ft_calloc(size_t nmemb, size_t size);
+
+#endif
+
+gnl.C
+
+#include "get_next_line.h"
+#include <stdio.h>
+
+size_t	ft_lstnewadd_back(t_list **lst, char *content)
+{
+	t_list	*new;
+	t_list	*aux;
+	
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (0);
+	ft_memcpy(new->content, content, ft_strlen(content));
+	new->next = NULL;
+	aux = *lst;
+	if (*lst)
+	{
+		while (aux->next)
+			aux = aux->next;
+		aux->next = new;
+	}
+	else
+		*lst = new;
+	return (1);
+}
+
+size_t	get_line(int fd, t_list **lst)
+{
+	ssize_t	cont;
+	size_t	i;
+	char	*rest;
+	t_list	*str;
+	char	*aux;
+
+	str = *lst;
+	cont = 1;
+	i = 0;
+	aux = NULL;
+	while (cont > 0 || !ft_strchr(aux, '\n'))
+	{
+		aux = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		if (!aux)
+			return (0);
+		cont = read(fd, aux, BUFFER_SIZE);
+		if (cont < 0)
+			return (0);
+		//printf("Leo: [%ld] aux[%s]\n",cont, aux);
+		rest = ft_strchr(aux, '\n');
+		//printf("Rest: [%s]\n", rest);
+		printf("Cont: [%zu]\n", cont);
+		if (!rest)
+			ft_memcpy(str->content, aux, cont);
+		printf("Content: [%s]\n", str->content);
+		while (rest)
+		{
+			printf("Itero 1 con rest: [%s] aux[%s]\n", rest, aux);
+			i++;
+			ft_memcpy(str->content, aux, (cont - ft_strlen(rest)));
+			if(!(ft_lstnewadd_back(lst, aux + (cont - ft_strlen(rest)))))
+				return (0);
+			str = str->next;
+			aux = rest;
+			rest = ft_strchr(rest, '\n') + 1;	
+		}
+		i++;
+	}
+	return (i);
+}	
+
+char	*get_next_line(int fd)
+{
+	static t_list	*str_list;
+	char			*ln;
+	size_t			counter;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	str_list = ft_lstnew(NULL);
+	if (!str_list)
+		return (NULL);
+	counter = get_line(fd, &str_list);
+	if (!counter)
+		return (NULL);
+	ln = (char *)ft_calloc((counter * BUFFER_SIZE) + 1, sizeof(char));
+	if (!ln)
+		return (NULL);
+	counter = get_line(fd, &str_list);
+	while (counter--)
+	{
+		ln = ft_strjoin(ln, str_list->content);
+		str_list->content = NULL;
+		free(str_list);
+		str_list = str_list->next;
+	}
+	return (ln);
+}
+
+
+gnl_utils.c
+
+#include "get_next_line.h"
+#include <stdio.h>
+
+size_t	ft_strlen(char *s)
+{
+	size_t	i;
+	
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+		i++;
+	printf("Prueba 1: %zu \n", i);
+	return (i);
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	size_t	i;
+	size_t	len;
+
+	i = -1;
+	len = ft_strlen(s);
+	if (!s)
+		return ((char *)s);
+	while ((++i) < len)
+		if ((char)s[i] == (char)c)
+			return ((char *)&s[i]);
+	return (NULL);
+}
+
+void	*ft_memcpy(char *dst, char *src, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (!src)
+		return (0);
+	while (i < n)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	return (dst);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*sd;
+
+	if (!s1 || !s2)
+		return (NULL);
+	sd = ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!sd)
+		return (NULL);
+	ft_memcpy(sd, s1, ft_strlen(s1));
+	ft_memcpy(sd + ft_strlen(s1), s2, ft_strlen(s2));
+	return (sd);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	unsigned char	*z;
+	size_t	len;
+	size_t	i;
+	
+	i = 0;
+	len = nmemb * size;
+	z = malloc(len);
+	if (z)
+		while (i < len)
+			z[i++] = '\0';
+	//printf("len: [%lu] ft_calloc:[%s]\n", len, z);
+	return (z);
+}
+
+t_list	*ft_lstnew(char *content)
+{
+	t_list	*lst;
+
+	lst = (t_list *)malloc(sizeof(t_list));
+	if (!lst)
+		return (NULL);
+	lst->content = content;
+	lst->next = NULL;
+	return (lst);
+}
