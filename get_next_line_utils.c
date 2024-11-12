@@ -6,7 +6,7 @@
 /*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 17:15:55 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:59:08 by jgomez-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,45 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 	
 	i = 0;
-	while (s && s[i] != '\0')
+	if (!s)
+		return (0);
+	while (s[i])
 		i++;
-	printf("\n!!!len: [%lu] ft_strlen: [%s]\n",i, s);
+	printf("Prueba 1: %zu \n", i);
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	size_t	i;
 	size_t	len;
 
 	i = -1;
 	len = ft_strlen(s);
+	if (!s)
+		return ((char *)s);
 	while ((++i) < len)
 		if ((char)s[i] == (char)c)
 			return ((char *)&s[i]);
 	return (NULL);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dst, void *src, size_t n)
 {
-	unsigned char	*a;
-	unsigned char	*z;
+	size_t	i;
 
-	if (!dest && !src)
-		return (dest);
-	a = (unsigned char *)src;
-	z = (unsigned char *)dest;
-	while (n-- && *a != '\n')
-		*(z++) = *(a++);
-	return (dest);
+	i = 0;
+	if (!dst && !src)
+		return (0);
+	while (i < n)
+	{
+		((char *)dst)[i] = ((char *)src)[i];
+		i++;
+	}
+	return (dst);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*sd;
 
@@ -81,7 +86,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (z);
 }
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(char *content)
 {
 	t_list	*lst;
 
