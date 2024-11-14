@@ -6,7 +6,7 @@
 /*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/14 02:23:49 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/14 19:33:53 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ size_t	ft_strlen(char *s)
 		return (0);
 	while (s[i])
 		i++;
-	printf("Prueba 1: %zu \n", i);
 	return (i);
 }
 

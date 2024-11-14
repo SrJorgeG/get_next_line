@@ -6,12 +6,13 @@
 /*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 22:36:57 by jorge             #+#    #+#             */
-/*   Updated: 2024/11/14 17:16:59 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/14 20:52:58 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <unistd.h>
+#include <stdio.h>
 
 // LEER UNA LINEA 
 
@@ -23,13 +24,20 @@ size_t	ft_lstnewadd_back(t_list **lst, char *content)
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
 		return (0);
+	new->content = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!new->content)
+		return (0);
+	printf("%s \n", content);
 	ft_memcpy(new->content, content, ft_strlen(content));
 	new->next = NULL;
 	aux = *lst;
 	if (*lst)
 	{
 		while (aux->next)
+		{
+			printf("Hola\n");
 			aux = aux->next;
+		}
 		aux->next = new;
 	}
 	else
@@ -64,8 +72,8 @@ char    *get_line_2(int fd, t_list **str_list)
 
 	str = *str_list;
 	rest = NULL;
-	while (!rest)
-    {	
+	while (!rest)	
+	{
 		aux = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!aux)
 			return (NULL);
@@ -87,7 +95,7 @@ char    *get_line_2(int fd, t_list **str_list)
 	free(aux);
 	ft_lstnewadd_back(&str, lastnode);
 	free(lastnode);
-	return (++rest);
+	return (rest);
 }
 
 char    *get_next_line_2(int fd)
@@ -99,14 +107,18 @@ char    *get_next_line_2(int fd)
     if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
-	str_list = malloc(sizeof(t_list));
+	str_list = ft_lstnew(NULL);
+	if (!str_list)
+		return (NULL);
 	rest = get_line_2(fd, &str_list);
-    while (str_list->next)
+	while (str_list)
 	{
+		printf("Loop\n");
 		ft_strjoin(line, str_list->content);
 		ft_lstclear(&str_list);
+		str_list = str_list->next;
 	}
 	if (rest)
-		ft_lstnewadd_back(&str_list, rest);
+		ft_lstnewadd_back(&str_list, rest + 1);
 	return (line);
 }
