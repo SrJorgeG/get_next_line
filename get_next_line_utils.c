@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 22:34:21 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/14 02:23:49 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (z);
 }
 
-t_list	*ft_lstnew(void)
+t_list	*ft_lstnew(char *content)
 {
 	t_list	*lst;
 
 	lst = (t_list *)malloc(sizeof(t_list));
 	if (!lst)
 		return (NULL);
-	lst->content = NULL;
+	lst->content = content;
 	lst->next = NULL;
 	return (lst);
 }

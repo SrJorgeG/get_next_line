@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:47 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 22:34:53 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/14 03:39:50 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,20 @@
 # include <fcntl.h>
 # include <stddef.h>
 
-char	*get_next_line(int fd);
 typedef struct s_list
 {
 	char			*content;
 	struct s_list	*next;
 }	t_list;
+char	*get_next_line_2(int fd);
+char    *get_line2(int fd, t_list **str_list);
 size_t	ft_strlen(char *s);
-t_list	*ft_lstnew(void);
+t_list	*ft_lstnew(char *content);
 size_t	ft_lstnewadd_back(t_list **lst, char *content);
 char	*ft_strchr(char *s, int c);
 void	*ft_memcpy(char *dst,char *src, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_lstclear(t_list **lst);
 
 #endif

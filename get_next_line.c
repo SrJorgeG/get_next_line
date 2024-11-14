@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgomez-d <jgomez-d@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:54 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/12 22:35:05 by jgomez-d         ###   ########.fr       */
+/*   Updated: 2024/11/14 01:09:32 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ size_t	get_line(int fd, t_list **lst)
 	{
 		aux = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!aux)
-			return (0);
+!			return (0);
 		cont = read(fd, aux, BUFFER_SIZE);
 		if (cont < 0)
 			return (0);
@@ -105,3 +105,4 @@ char	*get_next_line(int fd)
 	}
 	return (ln);
 }
+ 
