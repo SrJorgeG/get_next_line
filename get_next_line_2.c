@@ -6,11 +6,13 @@
 /*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 22:36:57 by jorge             #+#    #+#             */
-/*   Updated: 2024/11/14 03:42:45 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/14 17:16:59 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <unistd.h>
+
 // LEER UNA LINEA 
 
 size_t	ft_lstnewadd_back(t_list **lst, char *content)
@@ -52,11 +54,11 @@ void	ft_lstclear(t_list **lst)
 	}
 }
 
-char    *get_line2(int fd, t_list **str_list)
+char    *get_line_2(int fd, t_list **str_list)
 {
     char    *aux;
 	char	*rest;
-    size_t  cont;
+    ssize_t  cont;
 	t_list	*str;
 	char    *lastnode;
 
@@ -94,8 +96,10 @@ char    *get_next_line_2(int fd)
     char            *line;
 	char			*rest;
 
-    if (fd < 0)
-        return (NULL);
+    if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	line = NULL;
+	str_list = malloc(sizeof(t_list));
 	rest = get_line_2(fd, &str_list);
     while (str_list->next)
 	{

@@ -6,7 +6,7 @@
 /*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:47 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/14 03:39:50 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/14 16:53:29 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 char	*get_next_line_2(int fd);
-char    *get_line2(int fd, t_list **str_list);
+char    *get_line_2(int fd, t_list **str_list);
 size_t	ft_strlen(char *s);
 t_list	*ft_lstnew(char *content);
 size_t	ft_lstnewadd_back(t_list **lst, char *content);
