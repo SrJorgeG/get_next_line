@@ -6,7 +6,7 @@
 /*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:58 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/14 19:33:53 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/15 17:13:15 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ char	*ft_strchr(char *s, int c)
 	i = -1;
 	len = ft_strlen(s);
 	if (!s)
-		return ((char *)s);
+		return (NULL);
 	while ((++i) < len)
-		if ((char)s[i] == (char)c)
-			return ((char *)&s[i]);
+		if (s[i] == c)
+			return (&s[i]);
 	return (NULL);
 }
 
@@ -76,6 +76,8 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	
 	i = 0;
 	len = nmemb * size;
+	if (nmemb && size > SIZE_MAX / nmemb)
+		return (NULL);
 	z = malloc(len);
 	if (z)
 		while (i < len)

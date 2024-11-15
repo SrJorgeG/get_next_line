@@ -6,7 +6,7 @@
 /*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 03:10:47 by jgomez-d          #+#    #+#             */
-/*   Updated: 2024/11/14 16:53:29 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/15 16:34:52 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stddef.h>
+# include <stdint.h>
 
 typedef struct s_list
 {

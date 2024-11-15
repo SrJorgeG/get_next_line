@@ -6,7 +6,7 @@
 /*   By: jorge <jorge@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 22:36:57 by jorge             #+#    #+#             */
-/*   Updated: 2024/11/14 20:52:58 by jorge            ###   ########.fr       */
+/*   Updated: 2024/11/15 17:35:42 by jorge            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char    *get_line_2(int fd, t_list **str_list)
 
 	str = *str_list;
 	rest = NULL;
-	while (!rest)	
+	while (!rest && cont)	
 	{
 		aux = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!aux)
@@ -114,11 +114,14 @@ char    *get_next_line_2(int fd)
 	while (str_list)
 	{
 		printf("Loop\n");
-		ft_strjoin(line, str_list->content);
+		line = ft_strjoin(line, str_list->content);
 		ft_lstclear(&str_list);
 		str_list = str_list->next;
 	}
-	if (rest)
+	while (rest)        
+	{
+		ft_lstnewadd_back(&str, aux);
 		ft_lstnewadd_back(&str_list, rest + 1);
+	}
 	return (line);
 }
